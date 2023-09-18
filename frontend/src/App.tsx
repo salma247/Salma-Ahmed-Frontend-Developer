@@ -1,8 +1,12 @@
+import { Routes, Route } from "react-router-dom";
+import { Home } from "./pages/Home";
+
 function App() {
   return (
-    <div className="mx-4 flex justify-center bg-black py-4">
-      <h1 className="text-white">Hello Vite + React!</h1>
-    </div>
+      <Routes>
+        <Route path="/" element={<Home />} />
+      </Routes>
+   
   );
 }
 
