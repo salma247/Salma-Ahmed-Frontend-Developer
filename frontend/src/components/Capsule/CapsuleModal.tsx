@@ -1,4 +1,4 @@
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { fetchCapsule } from "../../services/api";
 import { useRef, useEffect } from "react";
 
@@ -31,18 +31,6 @@ export function CapsuleModal({ id, showModal, onClose }: Props) {
   if (isLoading) {
     return <div>Loading...</div>;
   }
-  /**
-     * interface Capsule{
-    id: string;
-    reuse_count: number;
-    water_landings: number;
-    land_landings: number;
-    last_update: string;
-    status: string;
-    serial: string;
-    type: string;
-}
-     */
 
   return (
     <div
