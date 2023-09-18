@@ -1,10 +1,14 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { NavLink } from "react-router-dom";
 import { HiOutlineMenuAlt1, HiOutlineX } from "react-icons/hi";
 import logo from "../assets/logo.png";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const activeStyle = "bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium";
+  const inactiveStyle = "text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium";
+  const [active, setActive] = useState("Home");
+
   return (
     <nav className="bg-gray-800 rounded">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -29,15 +33,15 @@ export function Navbar() {
             </div>
             <div className="hidden sm:ml-6 sm:block">
               <div className="flex space-x-4">
-                <Link to="/" className="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">
-                    Home
-                </Link>
-                <Link to="/rockets" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
-                    Rockets
-                </Link>
-                <Link to="/capsules" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
-                    Capsules
-                </Link>
+                <NavLink to="/" className={active === "Home" ? activeStyle : inactiveStyle} onClick={() => setActive("Home")}>
+                  Home
+                </NavLink>
+                <NavLink to="/rockets" className={active === "Rockets" ? activeStyle : inactiveStyle} onClick={() => setActive("Rockets")}>
+                  Rockets
+                </NavLink>
+                <NavLink to="/capsules" className={active === "Capsules" ? activeStyle : inactiveStyle} onClick={() => setActive("Capsules")}>
+                  Capsules
+                </NavLink>
               </div>
             </div>
           </div>
@@ -48,15 +52,15 @@ export function Navbar() {
         id="mobile-menu"
       >
         <div className="space-y-1 px-2 pb-3 pt-2">
-            <Link to="/" className="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium">
-                Home
-            </Link>
-            <Link to="/rockets" className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
-                Rockets
-            </Link>
-            <Link to="/capsules" className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
-                Capsules
-            </Link>
+          <NavLink to="/" className={active === "Home" ? activeStyle : inactiveStyle} onClick={() => setActive("Home")}>
+            Home
+          </NavLink>
+          <NavLink to="/rockets" className={active === "Rockets" ? activeStyle : inactiveStyle} onClick={() => setActive("Rockets")}>
+            Rockets
+          </NavLink>
+          <NavLink to="/capsules" className={active === "Capsules" ? activeStyle : inactiveStyle} onClick={() => setActive("Capsules")}>
+            Capsules
+          </NavLink>
         </div>
       </div>
     </nav>
