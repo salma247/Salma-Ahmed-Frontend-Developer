@@ -1,32 +1,23 @@
-import { useState } from "react";
+import { useContextProvider } from "../services/Context";
 
-type Props = {
-  onSearch: (status: string, type: string, serial: string) => void;
-};
+export function SearchFilter() {
+  const { data, onSearch, setStatus, setType, setSerial, status, type, serial } = useContextProvider();
 
-export function SearchFilter({ onSearch }: Props) {
-  const [status, setStatus] = useState("all");
-  const [type, setType] = useState("");
-  const [serial, setSerial] = useState("");
-
-  const handleStatusChange = (event : any) => {
-    setStatus(event.target.value);
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    onSearch(data, status, type, serial);
   };
 
-  const handleTypeChange = (event : any) => {
-    setType(event.target.value);
+  const handleStatusChange = (e: any) => {
+    setStatus(e.target.value);
   };
 
-  const handleSerialChange = (event : any) =>{
-    setSerial(event.target.value);
+  const handleTypeChange = (e: any) => {
+    setType(e.target.value);
   };
 
-  const handleSubmit = (event:any) => {
-    event.preventDefault();
-    onSearch(status, type, serial);
-    setStatus('all');
-    setType('');
-    setSerial('');
+  const handleSerialChange = (e: any) => {
+    setSerial(e.target.value);
   };
 
   return (

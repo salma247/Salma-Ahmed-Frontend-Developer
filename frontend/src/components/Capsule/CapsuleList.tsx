@@ -1,5 +1,6 @@
 import { CapsuleCard } from "./CapsuleCard";
 import { CapsuleSkeleton } from "./CapsuleSkeleton";
+
 type Props = {
   data: Capsule[];
   loading?: boolean;
