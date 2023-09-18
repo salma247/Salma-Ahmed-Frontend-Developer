@@ -1,13 +1,14 @@
-import { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import { useState } from "react";
+import { NavLink, useLocation } from "react-router-dom";
 import { HiOutlineMenuAlt1, HiOutlineX } from "react-icons/hi";
 import logo from "../assets/logo.png";
 
 export function Navbar() {
+  const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
-  const activeStyle = "bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium";
+  const activeStyle = "bg-gray-900 text-blue-500 block px-3 py-2 rounded-md text-base font-medium";
   const inactiveStyle = "text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium";
-  const [active, setActive] = useState("Home");
+  const [active, setActive] = useState(location.pathname === "/" ? "Home" : location.pathname.slice(1).charAt(0).toUpperCase() + location.pathname.slice(2));
 
   return (
     <nav className="bg-gray-800 rounded">

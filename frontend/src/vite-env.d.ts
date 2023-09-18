@@ -1,8 +1,8 @@
 /// <reference types="vite/client" />
 interface Rocket{
-    rocket_id: string;
-    rocket_name: string;
-    rocket_type: string;
+    type: string;
+    name: string;
+    id: string;
     active: boolean;
     cost_per_launch: number;
     success_rate_pct: number;
@@ -34,19 +34,12 @@ interface Rocket{
 }
 
 interface Capsule{
-    capsule_serial: string;
-    capsule_id: string;
-    status: string;
-    original_launch: string;
-    original_launch_unix: number;
-    missions: [
-        {
-            name: string;
-            flight: number;
-        }
-    ];
-    landings: number;
-    type: string;
-    details: string;
+    id: string;
     reuse_count: number;
+    water_landings: number;
+    land_landings: number;
+    last_update: string;
+    status: string;
+    serial: string;
+    type: string;
 }
