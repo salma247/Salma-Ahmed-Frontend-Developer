@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "react-query";
 import { fetchCapsules } from "../services/api";
-import { useContextProvider } from "../services/Context";
+import { useContextProvider } from "../hooks/useContext";
 
 import { SearchFilter } from "../components/SearchFilter";
 import { CapsuleList } from "../components/Capsule/CapsuleList";
@@ -13,14 +13,14 @@ export function Home() {
   const [pages, setPages] = useState(0);
   const { data, setData } = useContextProvider();
 
-  const {
-    data: capsules,
-    isLoading,
-    isError,
-    error,
-  }: any = useQuery(["capsules", page], () => fetchCapsules(10, page), {
-    keepPreviousData: true,
-  });
+  const { data: capsules, isLoading, isError, error } = useQuery(
+    ["capsules", page],
+    () => fetchCapsules(page, 10),
+    {
+      keepPreviousData: true,
+    },
+  );
+
 
   useEffect(() => {
     if (capsules) {

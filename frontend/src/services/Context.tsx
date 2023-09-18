@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useState } from "react";
 
 type Props = {
   children: React.ReactNode;
@@ -21,7 +21,7 @@ type ContextProps = {
   ) => void;
 };
 
-const Context = createContext<ContextProps>({
+export const Context = createContext<ContextProps>({
   data: [],
   status: "",
   type: "",
@@ -45,7 +45,7 @@ export function ContextProvider({ children }: Props) {
     type: string,
     serial: string,
   ) => {
-    const filteredCapsules = data.filter((capsule: any) => {
+    const filteredCapsules = data.filter((capsule: Capsule) => {
       const lowercaseType = type.toLowerCase();
       const lowercaseSerial = serial.toLowerCase();
       const matchesStatus = status === "all" || capsule.status === status;
@@ -77,6 +77,3 @@ export function ContextProvider({ children }: Props) {
   );
 }
 
-export function useContextProvider() {
-  return useContext(Context);
-}

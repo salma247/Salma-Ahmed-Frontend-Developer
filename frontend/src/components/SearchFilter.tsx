@@ -1,22 +1,31 @@
-import { useContextProvider } from "../services/Context";
+import { useContextProvider } from "../hooks/useContext";
 
 export function SearchFilter() {
-  const { data, onSearch, setStatus, setType, setSerial, status, type, serial } = useContextProvider();
+  const {
+    onSearch,
+    data,
+    setStatus,
+    setType,
+    setSerial,
+    status,
+    type,
+    serial,
+  } = useContextProvider();
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     onSearch(data, status, type, serial);
   };
 
-  const handleStatusChange = (e: any) => {
+  const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setStatus(e.target.value);
   };
 
-  const handleTypeChange = (e: any) => {
+  const handleTypeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setType(e.target.value);
   };
 
-  const handleSerialChange = (e: any) => {
+  const handleSerialChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSerial(e.target.value);
   };
 
@@ -77,7 +86,7 @@ export function SearchFilter() {
         <div className="flex items-end justify-end">
           <button
             type="submit"
-            className="w-full rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 "
+            className="w-full rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
             Search
           </button>

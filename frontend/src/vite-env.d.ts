@@ -1,7 +1,7 @@
 /// <reference types="vite/client" />
 
 interface Capsule{
-    launches: any;
+    launches: string[];
     id: string;
     reuse_count: number;
     water_landings: number;
