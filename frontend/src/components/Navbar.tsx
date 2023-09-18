@@ -37,9 +37,6 @@ export function Navbar() {
                 <NavLink to="/" className={active === "Home" ? activeStyle : inactiveStyle} onClick={() => setActive("Home")}>
                   Home
                 </NavLink>
-                <NavLink to="/rockets" className={active === "Rockets" ? activeStyle : inactiveStyle} onClick={() => setActive("Rockets")}>
-                  Rockets
-                </NavLink>
                 <NavLink to="/capsules" className={active === "Capsules" ? activeStyle : inactiveStyle} onClick={() => setActive("Capsules")}>
                   Capsules
                 </NavLink>
