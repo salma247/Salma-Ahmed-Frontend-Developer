@@ -1,30 +1,43 @@
 <?php
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    $data = [];
-    $page = isset($_GET['page']) ? $_GET['page'] : 1;
-    $limit = isset($_GET['limit']) ? $_GET['limit'] : 10;
-    $start = ($page - 1) * $limit;
+
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: POST');
+header('Access-Control-Allow-Headers: Content-Type');
+header('Access-Control-Max-Age: 3600');
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $apiUrl = 'https://api.spacexdata.com/latest';
     
-    $curl = curl_init();
-    curl_setopt_array($curl, array(
-        CURLOPT_URL => "https://api.spacexdata.com/v4/capsules",
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_ENCODING => "",
-        CURLOPT_MAXREDIRS => 10,
-        CURLOPT_TIMEOUT => 0,
-        CURLOPT_FOLLOWLOCATION => false,
-        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        CURLOPT_CUSTOMREQUEST => "GET",
-    ));
-    
+    $requestData = file_get_contents('php://input');
+    $data = json_decode($requestData, true);
+
+    if (!$data) {
+        http_response_code(400);
+        echo json_encode(["error" => "Invalid JSON data in the request"]);
+        exit;
+    }
+
+    $curl = curl_init($apiUrl.'/capsules/query');
+
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
+    curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
+    curl_setopt($curl, CURLOPT_HTTPHEADER, [
+        "Content-Type: application/json",
+    ]);
+
     $response = curl_exec($curl);
-    $data = json_decode($response, true);
+    $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
-
-    $data = array_slice($data, $start, $limit);
-    //close curl
     curl_close($curl);
 
     header('Content-Type: application/json');
-    echo json_encode($data);
+
+    if ($httpCode === 200) {
+        echo $response;
+    } else {
+        // Handle API errors and return appropriate status code
+        http_response_code($httpCode);
+        echo $response;
+    }
 }

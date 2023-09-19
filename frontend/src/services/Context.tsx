@@ -1,67 +1,31 @@
 import { createContext, useState, ReactNode } from "react";
 
 type ContextProps = {
-  state: {
-    data: Capsule[];
-    status: string;
-    type: string;
-    serial: string;
-  };
-  setState: React.Dispatch<
-    React.SetStateAction<{
-      data: Capsule[];
-      status: string;
-      type: string;
-      serial: string;
-    }>
-  >;
-  onSearch: () => void;
+  response: CapsuleResponse;
+  setResponse: (response: CapsuleResponse) => void;
+  data : Capsule[];
+  setData: (data: Capsule[]) => void;
+  page: number;
+  setPage: (page: number) => void;
+  pages: number;
+  setPages: (pages: number) => void;
 };
 
-const initialContextState: ContextProps["state"] = {
-  data: [],
-  status: "",
-  type: "",
-  serial: "",
-};
-
-export const Context = createContext<ContextProps | undefined>(undefined);
-
-type ContextProviderProps = {
+type Props = {
   children: ReactNode;
 };
 
-export function ContextProvider({ children }: ContextProviderProps) {
-  const [state, setState] =
-    useState<ContextProps["state"]>(initialContextState);
+export const Context = createContext({} as ContextProps);
 
-  const onSearch = () => {
-    const filteredCapsules = state.data.filter((capsule) => {
-      const lowercaseType = state.type?.toLowerCase() || "";
-      const lowercaseSerial = state.serial?.toLowerCase() || "";
-      const matchesStatus =
-        state.status === "all" || state.status === capsule.status;
-      const matchesType =
-        state.type === "" || capsule.type.toLowerCase().includes(lowercaseType);
-      const matchesSerial =
-        state.serial === "" ||
-        capsule.serial.toLowerCase().includes(lowercaseSerial);
-      return matchesStatus && matchesType && matchesSerial;
-    });
+export function ContextProvider({ children }: Props) {
+  const [data, setData] = useState<Capsule[]>([]);
+  const [page, setPage] = useState(1);
+  const [pages, setPages] = useState(1);
+  const [response, setResponse] = useState<CapsuleResponse>({} as CapsuleResponse);
 
-    console.log(filteredCapsules);
-    
-    setState((prevState) => ({
-      ...prevState,
-      data: filteredCapsules,
-    }));
-  };
-
-  const contextValue: ContextProps = {
-    state,
-    setState,
-    onSearch,
-  };
-
-  return <Context.Provider value={contextValue}>{children}</Context.Provider>;
+  return (
+    <Context.Provider value={{ data, setData, page, setPage, pages, setPages, response, setResponse }}>
+      {children}
+    </Context.Provider>
+  );
 }
