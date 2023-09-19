@@ -9,7 +9,7 @@ import { Pagination } from "../components/Pagination";
 import { Hero } from "../components/Hero";
 
 export function Home() {
-  const { data: contextData, setData } = useContextProvider();
+  const { state, setState } = useContextProvider();
 
   const [page, setPage] = useState(1);
   const [pages, setPages] = useState(1);
@@ -23,10 +23,10 @@ export function Home() {
 
   useEffect(() => {
     if (capsules) {
-      setData(capsules.docs);
+      setState({ data: capsules.docs });
       setPages(capsules.totalPages);
     }
-  }, [capsules, setData]);
+  }, [capsules, setState]);
 
   const handlePageChange = (newPage: number) => {
     setPage(newPage);
@@ -40,7 +40,7 @@ export function Home() {
     <div className="container mx-auto px-4">
       <Hero />
       <SearchFilter />
-      <CapsuleList data={contextData} loading={isLoading} /> {/* Use contextData instead of data */}
+      <CapsuleList data={state.data} loading={isLoading} /> 
       <Pagination
         page={page}
         pages={pages}

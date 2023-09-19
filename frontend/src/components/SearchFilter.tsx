@@ -1,34 +1,19 @@
 import { useContextProvider } from "../hooks/useContext";
 
 export function SearchFilter() {
-  const {
-    onSearch,
-    data,
-    setStatus,
-    setType,
-    setSerial,
-    status,
-    type,
-    serial,
-  } = useContextProvider();
+  const { state, setState, onSearch } = useContextProvider();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    onSearch(data, status, type, serial);
+    onSearch();
   };
 
-  const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setStatus(e.target.value);
+  const handleStateChange = ( newState: Partial<typeof state>) => {
+    setState((prevState) => ({
+      ...prevState,
+      ...newState,
+    }));
   };
-
-  const handleTypeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setType(e.target.value);
-  };
-
-  const handleSerialChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSerial(e.target.value);
-  };
-
   return (
     <form className="mx-auto" onSubmit={handleSubmit}>
       <div className="mb-6 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
@@ -41,8 +26,8 @@ export function SearchFilter() {
           </label>
           <select
             id="status"
-            value={status}
-            onChange={handleStatusChange}
+            value={state.status}
+            onChange={(e) => handleStateChange({ status: e.target.value })}
             className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
           >
             <option value="all">All</option>
@@ -61,8 +46,8 @@ export function SearchFilter() {
           <input
             type="text"
             id="type"
-            value={type}
-            onChange={handleTypeChange}
+            value={state.type}
+            onChange={(e) => handleStateChange({ type: e.target.value })}
             className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
             placeholder="ex. Dragon"
           />
@@ -76,8 +61,8 @@ export function SearchFilter() {
           </label>
           <input
             type="text"
-            value={serial}
-            onChange={handleSerialChange}
+            value={state.serial}
+            onChange={(e) => handleStateChange({ serial: e.target.value })}
             id="serial"
             className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
             placeholder="ex. C201"

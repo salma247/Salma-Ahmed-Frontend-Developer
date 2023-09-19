@@ -1,79 +1,67 @@
-import { createContext, useState } from "react";
-
-type Props = {
-  children: React.ReactNode;
-};
+import { createContext, useState, ReactNode } from "react";
 
 type ContextProps = {
-  data: Capsule[];
-  status: string;
-  type: string;
-  serial: string;
-  setData: (data: Capsule[]) => void;
-  setStatus: (status: string) => void;
-  setType: (type: string) => void;
-  setSerial: (serial: string) => void;
-  onSearch: (
-    data: Capsule[],
-    status: string,
-    type: string,
-    serial: string,
-  ) => void;
+  state: {
+    data: Capsule[];
+    status: string;
+    type: string;
+    serial: string;
+  };
+  setState: React.Dispatch<
+    React.SetStateAction<{
+      data: Capsule[];
+      status: string;
+      type: string;
+      serial: string;
+    }>
+  >;
+  onSearch: () => void;
 };
 
-export const Context = createContext<ContextProps>({
+const initialContextState: ContextProps["state"] = {
   data: [],
   status: "",
   type: "",
   serial: "",
-  setData: () => {},
-  setStatus: () => {},
-  setType: () => {},
-  setSerial: () => {},
-  onSearch: () => {},
-});
+};
 
-export function ContextProvider({ children }: Props) {
-  const [data, setData] = useState<Capsule[]>([]);
-  const [status, setStatus] = useState("all");
-  const [type, setType] = useState("");
-  const [serial, setSerial] = useState("");
+export const Context = createContext<ContextProps | undefined>(undefined);
 
-  const onSearch = (
-    data: Capsule[],
-    status: string,
-    type: string,
-    serial: string,
-  ) => {
-    const filteredCapsules = data.filter((capsule: Capsule) => {
-      const lowercaseType = type.toLowerCase();
-      const lowercaseSerial = serial.toLowerCase();
-      const matchesStatus = status === "all" || capsule.status === status;
+type ContextProviderProps = {
+  children: ReactNode;
+};
+
+export function ContextProvider({ children }: ContextProviderProps) {
+  const [state, setState] =
+    useState<ContextProps["state"]>(initialContextState);
+
+  const onSearch = () => {
+    const filteredCapsules = state.data.filter((capsule) => {
+      const lowercaseType = state.type?.toLowerCase() || "";
+      const lowercaseSerial = state.serial?.toLowerCase() || "";
+      const matchesStatus =
+        state.status === "all" || state.status === capsule.status;
       const matchesType =
-        type === "" || capsule.type.toLowerCase().includes(lowercaseType);
+        state.type === "" || capsule.type.toLowerCase().includes(lowercaseType);
       const matchesSerial =
-        serial === "" || capsule.serial.toLowerCase().includes(lowercaseSerial);
+        state.serial === "" ||
+        capsule.serial.toLowerCase().includes(lowercaseSerial);
       return matchesStatus && matchesType && matchesSerial;
     });
-    setData(filteredCapsules);
+
+    console.log(filteredCapsules);
+    
+    setState((prevState) => ({
+      ...prevState,
+      data: filteredCapsules,
+    }));
   };
 
-  return (
-    <Context.Provider
-      value={{
-        data,
-        status,
-        type,
-        serial,
-        setStatus,
-        setType,
-        setSerial,
-        onSearch,
-        setData,
-      }}
-    >
-      {children}
-    </Context.Provider>
-  );
-}
+  const contextValue: ContextProps = {
+    state,
+    setState,
+    onSearch,
+  };
 
+  return <Context.Provider value={contextValue}>{children}</Context.Provider>;
+}
