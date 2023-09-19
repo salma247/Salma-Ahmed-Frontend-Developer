@@ -11,3 +11,17 @@ interface Capsule{
     serial: string;
     type: string;
 }
+
+interface CapsuleResponse{
+    docs: Capsule[];
+    totalDocs: number;
+    limit: number;
+    totalPages: number;
+    page: number;
+    offset: number;
+    hasPrevPage: boolean;
+    hasNextPage: boolean;
+    prevPage: number;
+    nextPage: number;
+    offset: number;
+}

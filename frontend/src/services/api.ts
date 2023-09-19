@@ -4,9 +4,14 @@ const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
 });
 
-export const fetchCapsules : (limit: number, offset: number) => Promise<Capsule[]> = async (limit: number = 10, offset: number = 1) => {
-  const response = await api.get(`/capsules?limit=${limit}&offset=${offset}`);
-  console.log(api.defaults.baseURL);
+export const fetchCapsules : (limit: number, page: number) => Promise<CapsuleResponse> = async (limit: number = 10, page: number = 1) => {
+  const response = await api.post(`/capsules/query` , {
+      options: {
+        limit,
+        page
+      }
+  });
+  console.log(response.data);
   
   return response.data;
 }
