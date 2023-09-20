@@ -1,12 +1,10 @@
 <?php
-
 header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: POST');
+header('Access-Control-Allow-Methods: POST, GET');
 header('Access-Control-Allow-Headers: Content-Type');
-header('Access-Control-Max-Age: 3600');
+$apiUrl = 'https://api.spacexdata.com/latest';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $apiUrl = 'https://api.spacexdata.com/latest';
     
     $requestData = file_get_contents('php://input');
     $data = json_decode($requestData, true);
@@ -36,8 +34,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($httpCode === 200) {
         echo $response;
     } else {
-        // Handle API errors and return appropriate status code
         http_response_code($httpCode);
         echo $response;
     }
 }
+
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    $id = $_GET['id'];
+
+    if (!$id) {
+        http_response_code(400);
+        echo json_encode(["error" => "Missing required parameter 'id'"]);
+        exit;
+    }
+
+    $curl = curl_init($apiUrl.'/capsules/'.$id);
+
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+
+    $response = curl_exec($curl);
+    $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+
+    curl_close($curl);
+
+    header('Content-Type: application/json');
+
+    if ($httpCode === 200) {
+        echo $response;
+    } else {
+        http_response_code($httpCode);
+        echo $response;
+    }
+}
+

@@ -11,7 +11,6 @@ export const fetchCapsules : (limit: number, page: number) => Promise<CapsuleRes
         page
       }
   });
-  console.log(response.data);
   return response.data;
 }
 
@@ -34,10 +33,14 @@ export const searchCapsules : (state: SearchState, limit: number, page: number) 
       return request
     }
   );
+  return response.data;
+}
 
-
-  console.log(req);
-
+export const login : (username: string, password: string) => Promise<any> = async (username: string, password: string) => {
+  const response = await api.post(`/login.php` , {
+      username,
+      password
+  });
   return response.data;
 }
 
