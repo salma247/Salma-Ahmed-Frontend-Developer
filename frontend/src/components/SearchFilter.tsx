@@ -1,19 +1,35 @@
 import { useContextProvider } from "../hooks/useContext";
+import { searchCapsules } from "../services/api";
+import { useState } from "react";
+// import { useQuery } from "@tanstack/react-query";
 
 export function SearchFilter() {
-  const { state, setState, onSearch } = useContextProvider();
+  const { setData, setPage, setPages } = useContextProvider();
 
+  const [state, setState] = useState({
+    status: "all",
+    type: "",
+    serial: "",
+  });
+
+  const onSearch = async () => {
+    const data = await searchCapsules(state, 10, 1);
+    setData(data.docs);
+    setPage(data.page);
+    setPages(data.totalPages);
+  };
+  
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     onSearch();
+    setState({ status: "all", type: "", serial: "" });
   };
 
-  const handleStateChange = ( newState: Partial<typeof state>) => {
-    setState((prevState) => ({
-      ...prevState,
-      ...newState,
-    }));
+  const handleStateChange = (newState: any) => {
+    setState((prevState) => ({ ...prevState, ...newState }));
   };
+
+
   return (
     <form className="mx-auto" onSubmit={handleSubmit}>
       <div className="mb-6 grid gap-6 md:grid-cols-2 lg:grid-cols-4">

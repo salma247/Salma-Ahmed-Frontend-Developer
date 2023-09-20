@@ -11,26 +11,32 @@ export const fetchCapsules : (limit: number, page: number) => Promise<CapsuleRes
         page
       }
   });
- 
+  console.log(response.data);
   return response.data;
 }
 
 export const fetchCapsule : (id: string) => Promise<Capsule> = async (id: string) => {
-  const response = await api.get(`/capsules/${id}`);
+  const response = await api.get(`/capsules.php?id=${id}`);
   return response.data;
 }
 
-export const searchCapsules : (type: string, status: string, serial: string, limit: number, page: number) => Promise<CapsuleResponse> = async (type: string, status: string, serial: string, limit: number = 10, page: number = 1) => {
+export const searchCapsules : (state: SearchState, limit: number, page: number) => Promise<CapsuleResponse> = async (state: SearchState, limit: number = 10, page: number = 1) => {
   const response = await api.post(`/search.php` , {
       options: {
         limit,
         page
       },
-      status,
-      type,
-      serial
+      ...state
   });
-  console.log(response.data);
+  const req = await api.interceptors.request.use(
+    request => {
+      console.log('Starting Request', request)
+      return request
+    }
+  );
+
+
+  console.log(req);
 
   return response.data;
 }

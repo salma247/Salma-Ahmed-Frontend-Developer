@@ -25,3 +25,9 @@ interface CapsuleResponse{
     nextPage: number;
     offset: number;
 }
+
+interface SearchState{
+    status: string;
+    serial: string;
+    type: string;
+}
