@@ -1,38 +1,19 @@
-import { useContextProvider } from "../hooks/useContext";
-import { searchCapsules } from "../services/api";
-import { useState } from "react";
-// import { useQuery } from "@tanstack/react-query";
+import { useSearchParams } from "react-router-dom";
 
 export function SearchFilter() {
-  const { setData, setPage, setPages } = useContextProvider();
-
-  const [state, setState] = useState({
-    status: "all",
+  const [searchParams, setSearchParams] = useSearchParams({
+    status: "",
     type: "",
     serial: "",
   });
 
-  const onSearch = async () => {
-    const data = await searchCapsules(state, 10, 1);
-    setData(data.docs);
-    setPage(data.page);
-    setPages(data.totalPages);
-  };
-  
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    onSearch();
-    setState({ status: "all", type: "", serial: "" });
-  };
-
-  const handleStateChange = (newState: any) => {
-    setState((prevState) => ({ ...prevState, ...newState }));
-  };
-
+  const status = searchParams.get("status") || "all";
+  const type = searchParams.get("type") || "";
+  const serial = searchParams.get("serial") || "";
 
   return (
-    <form className="mx-auto" onSubmit={handleSubmit}>
-      <div className="mb-6 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+    <form className="mx-auto mt-5">
+      <div className="mb-6 grid gap-6 md:grid-cols-3">
         <div>
           <label
             htmlFor="status"
@@ -42,8 +23,16 @@ export function SearchFilter() {
           </label>
           <select
             id="status"
-            value={state.status}
-            onChange={(e) => handleStateChange({ status: e.target.value })}
+            value={status}
+            onChange={e =>
+              setSearchParams(
+                (old) => {
+                  old.set("status", e.target.value);
+                  return old;
+                },
+                { replace: true },
+              )
+            }
             className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
           >
             <option value="all">All</option>
@@ -62,8 +51,16 @@ export function SearchFilter() {
           <input
             type="text"
             id="type"
-            value={state.type}
-            onChange={(e) => handleStateChange({ type: e.target.value })}
+            value={type}
+            onChange={e =>
+              setSearchParams(
+                (old) => {
+                  old.set("type", e.target.value);
+                  return old;
+                },
+                { replace: true },
+              )
+            }
             className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
             placeholder="ex. Dragon"
           />
@@ -77,20 +74,20 @@ export function SearchFilter() {
           </label>
           <input
             type="text"
-            value={state.serial}
-            onChange={(e) => handleStateChange({ serial: e.target.value })}
+            value={serial}
+            onChange={(e) =>
+              setSearchParams(
+                (old) => {
+                  old.set("serial", e.target.value);
+                  return old;
+                },
+                { replace: true },
+              )
+            }
             id="serial"
             className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
             placeholder="ex. C201"
           />
-        </div>
-        <div className="flex items-end justify-end">
-          <button
-            type="submit"
-            className="w-full rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          >
-            Search
-          </button>
         </div>
       </div>
     </form>
