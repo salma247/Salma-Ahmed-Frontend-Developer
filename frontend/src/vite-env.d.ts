@@ -25,3 +25,8 @@ interface CapsuleResponse{
     nextPage: number;
     offset: number;
 }
+
+interface LoginResponse{
+    token: string;
+    username: string;
+}

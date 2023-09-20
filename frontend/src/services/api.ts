@@ -33,7 +33,7 @@ export const searchCapsules : (type: string, status: string, serial: string, lim
   return response.data;
 }
 
-export const login : (username: string, password: string) => Promise<any> = async (username: string, password: string) => {
+export const login : (username: string, password: string) => Promise<LoginResponse> = async (username: string, password: string) => {
   const response = await api.post(`/login.php` , {
       username,
       password

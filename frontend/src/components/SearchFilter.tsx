@@ -1,4 +1,6 @@
 import { useSearchParams } from "react-router-dom";
+import { useContextProvider } from "../hooks/useContext";
+import { useEffect } from "react";
 
 export function SearchFilter() {
   const [searchParams, setSearchParams] = useSearchParams({
@@ -10,6 +12,7 @@ export function SearchFilter() {
   const status = searchParams.get("status") || "all";
   const type = searchParams.get("type") || "";
   const serial = searchParams.get("serial") || "";
+
 
   return (
     <form className="mx-auto mt-5">

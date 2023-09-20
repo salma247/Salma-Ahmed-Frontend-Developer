@@ -30,7 +30,7 @@ export function Home() {
       if (status === "all" && type === "" && serial === "") {
         return fetchCapsules(10, page);
       } else {
-        return searchCapsules(type, status, serial, 10, page);
+        return searchCapsules(type, status, serial, 10, 1);
       }
     },
     {
