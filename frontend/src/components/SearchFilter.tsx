@@ -1,6 +1,4 @@
 import { useSearchParams } from "react-router-dom";
-import { useContextProvider } from "../hooks/useContext";
-import { useEffect } from "react";
 
 export function SearchFilter() {
   const [searchParams, setSearchParams] = useSearchParams({
