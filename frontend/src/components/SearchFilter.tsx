@@ -7,9 +7,9 @@ export function SearchFilter() {
     serial: "",
   });
 
-  const status = searchParams.get("status") || "all";
-  const type = searchParams.get("type") || "";
-  const serial = searchParams.get("serial") || "";
+  const status = searchParams.get("status") ?? "all";
+  const type = searchParams.get("type") ?? "";
+  const serial = searchParams.get("serial") ?? "";
 
 
   return (
