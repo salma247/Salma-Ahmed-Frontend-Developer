@@ -35,10 +35,11 @@ export function Home() {
     setPage(page);
   };
 
-
   return (
     <div className="container mx-auto px-4">
       <Hero />
+      <SearchFilter />
+      
       {data && data.totalDocs === 0 && (
         <div className="mt-8 text-center text-2xl">
           <p>No capsules found</p>
@@ -51,7 +52,6 @@ export function Home() {
         </div>
       )}
 
-      <SearchFilter />
       <CapsuleList data={data?.docs} loading={isLoading} />
       {data && (
         <>
