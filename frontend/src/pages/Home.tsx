@@ -35,6 +35,7 @@ export function Home() {
     },
     {
       keepPreviousData: true,
+      enabled: !!localStorage.getItem("token"),
       onSuccess: (data) => {
         setData(data.docs);
         setPages(data.totalPages);
@@ -49,6 +50,7 @@ export function Home() {
       scrollTo({ top: 0, behavior: "smooth" });
     }
   }, [page, navigate]);
+
 
 
   return (
