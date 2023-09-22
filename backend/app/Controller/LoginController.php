@@ -46,7 +46,6 @@ class LoginController extends ApiController
             'iss' => 'localhost',
             'aud' => 'localhost',
             'iat' => time(),
-            'exp' => time() + 60 * 60,
             'sub' => 'admin'
         ];
         return JWT::encode($payload, $this->secertKey, 'HS256');
