@@ -16,7 +16,38 @@ class CapsulesController extends ApiController {
 
     protected function post() {
         $data = json_decode(file_get_contents('php://input'), true);
-        $result = $this->query($data);
+        $limit = isset($data['options']['limit']) ? intval($data['options']['limit']) : 10;
+        $page = isset($data['options']['page']) ? intval($data['options']['page']) : 1;
+        $criteria = [];
+        if (isset($data['status']) && $data['status'] !== 'all') {
+            $criteria['status'] = $data['status'];
+        }
+        if (isset($data['type']) && $data['type'] !== '') {
+            $criteria['type'] = $data['type'];
+        }
+        if (isset($data['serial']) && $data['serial'] !== '') {
+            $criteria['serial'] = $data['serial'];
+        }
+
+        $query = [];
+
+        if (empty($criteria)) {
+            $query = [
+                'options' => [
+                    'limit' => $limit,
+                    'page' => $page,
+                ],
+            ];
+        } else {
+            $query = [
+                'query' => $criteria,
+                'options' => [
+                    'limit' => $limit,
+                    'page' => $page,
+                ],
+            ];
+        }
+        $result = $this->query($query);
         $this->response($result);
     }
 
