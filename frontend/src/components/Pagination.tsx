@@ -24,6 +24,7 @@ export function Pagination({ pages, page, hasNextPage, hasPrevPage, setPage }: P
         <button
           onClick={() => handlePageChange(page - 1)}
           disabled={!hasPrevPage}
+          data-testid="prev-button"
           className={`${ !hasPrevPage ? disabledStyle : defaultStyle} relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 text-sm font-medium`}
         >
           <FaChevronLeft />
@@ -31,6 +32,7 @@ export function Pagination({ pages, page, hasNextPage, hasPrevPage, setPage }: P
         {[...Array(pages)].map((_, index) => (
           <button
             key={index}
+            data-testid="page-button"
             onClick={() => handlePageChange(index + 1)}
             className={`${page === index + 1 ? activeStyle : defaultStyle} relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium`}
           >
@@ -40,6 +42,7 @@ export function Pagination({ pages, page, hasNextPage, hasPrevPage, setPage }: P
         <button
           onClick={() => handlePageChange(page + 1)}
           disabled={!hasNextPage}
+          data-testid="next-button"
           className={`${!hasNextPage ? disabledStyle : defaultStyle} relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 text-sm font-medium`}
         >
           <FaChevronRight />

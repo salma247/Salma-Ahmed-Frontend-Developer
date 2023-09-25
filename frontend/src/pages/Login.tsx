@@ -1,6 +1,6 @@
 import { login } from "../services/api";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useMutation } from "@tanstack/react-query";
 
 export function Login() {
@@ -8,6 +8,12 @@ export function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
+
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      navigate("/");
+    }
+  }, [navigate]);
 
   const mutation = useMutation(() => login(username, password), {
     onSuccess: () => {
@@ -25,6 +31,7 @@ export function Login() {
 
   return (
     <div
+      data-testid="login-page"
       className="flex items-center justify-center"
       style={{
         height: "calc(100vh - 150px)",

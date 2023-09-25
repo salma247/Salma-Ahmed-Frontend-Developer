@@ -28,7 +28,7 @@ function App() {
   );
 }
 
-function RequireAuth({
+export function RequireAuth({
   children,
   redirectTo,
 }: {

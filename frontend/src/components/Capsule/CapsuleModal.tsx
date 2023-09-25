@@ -24,12 +24,12 @@ export function CapsuleModal({ id, showModal, onClose }: Props) {
     };
   }, [onClose]);
 
-  if (!data) {
-    return null;
-  }
-
+  
   if (isLoading) {
     return <div>Loading...</div>;
+  }
+  if (!data) {
+    return null;
   }
 
   return (
@@ -41,7 +41,7 @@ export function CapsuleModal({ id, showModal, onClose }: Props) {
       role="dialog"
       aria-modal="true"
     >
-      <div className="flex min-h-screen items-end justify-center px-4 pb-20 pt-4 text-center sm:block sm:p-0">
+      <div className="flex min-h-screen items-end justify-center px-4 pb-20 pt-4 text-center sm:block sm:p-0" data-testid="capsule-modal">
         <div
           className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
           aria-hidden="true"
