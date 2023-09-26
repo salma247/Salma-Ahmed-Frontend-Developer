@@ -1,5 +1,5 @@
 import { QueryProvider } from "./libs/react-query/QueryProvider";
-
+import { getToken } from "./services/getToken";
 import { Home } from "./pages/Home";
 import { Navbar } from "./components/Navbar";
 import { ContextProvider } from "./services/Context";
@@ -35,7 +35,7 @@ export function RequireAuth({
   children: React.ReactNode;
   redirectTo: string;
 }) {
-  const token = localStorage.getItem("token");
+  const token = getToken();
   if (!token) {
     return <Navigate to={redirectTo} />;
   }

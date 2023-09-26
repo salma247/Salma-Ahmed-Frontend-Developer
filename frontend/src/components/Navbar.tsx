@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
 import { logout } from "../services/api";
+import { getToken } from "../services/getToken";
 
 
 export function Navbar() {
@@ -11,7 +12,7 @@ export function Navbar() {
         <img src={logo} alt="SpaceX" className="h-8 w-8 mr-2" />
         <h1>SpaceX</h1>
       </div>
-      {localStorage.getItem("token") ? (
+      {getToken() ? (
         <button
           className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full"
           onClick={() => {

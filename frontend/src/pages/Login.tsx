@@ -2,6 +2,7 @@ import { login } from "../services/api";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useMutation } from "@tanstack/react-query";
+import { getToken } from "../services/getToken";
 
 export function Login() {
   const navigate = useNavigate();
@@ -10,7 +11,7 @@ export function Login() {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    if (localStorage.getItem("token")) {
+    if (getToken()) {
       navigate("/");
     }
   }, [navigate]);

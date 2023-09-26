@@ -7,6 +7,7 @@ import { SearchFilter } from "../components/SearchFilter";
 import { CapsuleList } from "../components/Capsule/CapsuleList";
 import { Pagination } from "../components/Pagination";
 import { Hero } from "../components/Hero";
+import { getToken } from "../services/getToken";
 
 export function Home() {
   const { page, setPage } = useContextProvider();
@@ -16,7 +17,7 @@ export function Home() {
   const { data, isLoading, isError } = useQuery(
     ["capsules", page, status, type, serial],
     () => fetchCapsules(type, status, serial, 10, page),
-    { keepPreviousData: true, enabled: !!localStorage.getItem("token") },
+    { keepPreviousData: true, enabled: !!getToken() }
   );
 
   useEffect(() => {
